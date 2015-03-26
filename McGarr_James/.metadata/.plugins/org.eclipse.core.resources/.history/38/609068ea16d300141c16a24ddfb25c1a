@@ -1,0 +1,6 @@
+package Question1;
+
+public interface Transactable {
+	void lodge(double amount);
+	void withdraw(double amount);
+}

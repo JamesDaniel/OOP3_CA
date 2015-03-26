@@ -1,0 +1,44 @@
+package Question1;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
+
+public class BankAccountDriver {
+
+	public static void main(String[] args) {
+		
+		
+		Set<BankAccount> accounts = new HashSet<>();
+		
+		while (JOptionPane.showConfirmDialog(null, "Do you want to add an account?") ==
+			   JOptionPane.YES_OPTION)
+		{
+			if (JOptionPane.showConfirmDialog(null,"Enter SavingsAccount?") ==
+				JOptionPane.YES_OPTION)
+			{
+				accounts.add(new SavingsAccount(
+						JOptionPane.showInputDialog("Please enter account number: "),
+						Double.parseDouble(JOptionPane.showInputDialog("Please enter account balance: "))));
+			}
+
+			if (JOptionPane.showConfirmDialog(null,"Enter CurrentAccount?") ==
+				JOptionPane.YES_OPTION)
+			{
+				
+			}
+		}
+		
+		
+		
+		
+		
+		
+	}
+	public static BankAccount createAccount(String accountType, String accountNumber, double balance)
+	{
+		return null;
+	}
+
+}

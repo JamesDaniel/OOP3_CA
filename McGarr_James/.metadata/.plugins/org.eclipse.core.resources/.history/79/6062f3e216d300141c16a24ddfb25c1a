@@ -1,0 +1,122 @@
+package Question1;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.swing.JOptionPane;
+
+public class BankAccountDriver {
+	public static Set<BankAccount> accounts;
+	public static void main(String[] args) {
+		
+		
+		accounts = new HashSet<>();
+		String prompt = "Do you want to add an account?";
+		while (JOptionPane.showConfirmDialog(null,prompt) ==
+			   JOptionPane.YES_OPTION)
+		{
+			if (createAccount())
+				prompt = "Do you want to add another account?";
+		}
+		
+		Set<BankAccount> sortAccounts = new TreeSet<>(accounts);   // ask if this is ok "<>"
+		
+		Iterator<BankAccount> it = sortAccounts.iterator();
+		String output = "";
+		while (it.hasNext())
+		{
+			output += it.next().toString();
+		}
+		if (!output.equals(""))
+			JOptionPane.showMessageDialog(null, output);
+		
+		while (JOptionPane.showConfirmDialog(null,"search for bank account?") ==
+				   JOptionPane.YES_OPTION)
+		{
+			BankAccount account = searchForAccount();
+			if (account != null)
+			{
+				JOptionPane.showMessageDialog(null,"Account Found");
+				updateAccount(account);
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Account Not Found.");
+		}
+		
+		System.exit(0);
+	}
+	public static boolean createAccount()  // "you should create 'a' class method" I'm assuming just one class method for each type of account.
+	{
+			if (JOptionPane.showConfirmDialog(null,"Enter SavingsAccount?") ==
+				JOptionPane.YES_OPTION)
+			{
+				accounts.add(new SavingsAccount(
+						JOptionPane.showInputDialog("Please enter account number: "),
+						Double.parseDouble(JOptionPane.showInputDialog("Please enter account balance: "))));
+				return true;
+			}
+
+			if (JOptionPane.showConfirmDialog(null,"Enter CurrentAccount?") ==
+				JOptionPane.YES_OPTION)
+			{
+				accounts.add(new CurrentAccount(
+						JOptionPane.showInputDialog("Please enter account number: "),
+						Double.parseDouble(JOptionPane.showInputDialog("Please enter account balance: "))));
+				return true;
+			}
+			return false;
+	}
+	public static BankAccount searchForAccount(){
+		Iterator<BankAccount> it = accounts.iterator();
+		String searchKey = JOptionPane.showInputDialog("enter a search for bank acocunt number: ");
+		while (it.hasNext())
+		{
+			BankAccount b = it.next();
+			if (b.getAccNum().equals(searchKey));
+				return b;
+		}
+		return null;
+	}
+	public static void updateAccount(BankAccount account)
+	{
+		while (JOptionPane.showConfirmDialog(null,"lodge Money?") ==
+				   JOptionPane.YES_OPTION)
+		{
+			try{
+				String moneyToLodgeStr = JOptionPane.showInputDialog("How much money would you like to lodge?");
+				double moneyToLodge = Double.parseDouble(moneyToLodgeStr);
+				account.lodge(moneyToLodge);
+				JOptionPane.showMessageDialog(null, "New Balance: €" + String.format("%.2f", account.getBalance()));
+			}
+			catch (NumberFormatException ex)
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+			catch (IllegalArgumentException ex)
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+		}
+		while (JOptionPane.showConfirmDialog(null,"withdraw Money?") ==
+				   JOptionPane.YES_OPTION)
+		{
+			try{
+				String moneyToWithdrawStr = JOptionPane.showInputDialog("How much money would you like to withdraw?");
+				double moneyToWithdraw = Double.parseDouble(moneyToWithdrawStr);
+				account.withdraw(moneyToWithdraw);
+				JOptionPane.showMessageDialog(null, "New Balance: €" + String.format("%.2f", account.getBalance()));
+			}
+			catch (NumberFormatException ex)
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+			catch (IllegalArgumentException ex)
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+		}
+	}
+
+}
